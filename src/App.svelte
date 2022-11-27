@@ -4,7 +4,7 @@
   let diff = 0;
   let stopFlag = -1;
   let current = 0;
-  let m = '0', s = '0';
+  let m = '00', s = '00';
   let ini;
 
   function stop(){
@@ -27,10 +27,15 @@
   function iniTimer(){
     if(stopFlag == 0){
       diff = (25000 * 60) - (Date.now() - ini) // 현재 시간
-      m = '0' + Math.floor(((diff / 1000) / 60));
-      m = m.slice(m.length-2);
-      s = '0' + Math.floor((diff / 1000) % 60);
-      s = s.slice(s.length-2);
+      if (diff >= 0){
+        m = '0' + Math.floor(((diff / 1000) / 60));
+        m = m.slice(m.length-2);
+        s = '0' + Math.floor((diff / 1000) % 60);
+        s = s.slice(s.length-2);
+      }
+      else if(diff < 0){
+        stopFlag = -1;
+      }
     }
   }
 </script>
@@ -42,7 +47,11 @@
       AmiPomodoro<br>
     </h1>
     <b>make your friend, pomodoro</b><br>
-    <a>{m} : {s}</a>
+
+    <body>
+      <b style ="font-size:15rem">{m} : {s}</b>
+    </body>
+
   </div>
   <div>
     <button on:click={start}>
